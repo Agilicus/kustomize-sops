@@ -1,0 +1,9 @@
+---
+secretGenerator:
+  - name: mysecrets
+    kvSources:
+      - name: kustomize-sops
+        pluginType: go
+        args:
+          - CAT
+          - DOG
