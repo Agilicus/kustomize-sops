@@ -6,6 +6,7 @@ import (
 	"go.mozilla.org/sops/decrypt"
 	"gopkg.in/yaml.v2"
 	"log"
+	"path/filepath"
 )
 
 type plugin struct{}
@@ -16,9 +17,11 @@ func (p plugin) Get(root string, args []string) (map[string]string, error) {
 
 	secret := make(map[string]string)
 
-	v, err := decrypt.File("secrets.enc.yaml", "yaml")
+	secret_file := filepath.Join(root, "secrets.enc.yaml")
+
+	v, err := decrypt.File(secret_file, "yaml")
 	if err != nil {
-		log.Fatalf("error: cannot decode secrets.enc.yaml in %s :: %v", root, err)
+		log.Fatalf("error: cannot decode file %s :: %v", secret_file, err)
 	}
 	err = yaml.Unmarshal([]byte(v), &secret)
 	if err != nil {
