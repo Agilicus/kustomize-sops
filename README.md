@@ -71,7 +71,7 @@ gcloud kms keyrings create sops --location global
 gcloud kms keys create sops-key --location global --keyring sops --purpose encryption
 gcloud kms keys list --location global --keyring sops
 # NAME                                                                      PURPOSE          LABELS  PRIMARY_ID  PRIMARY_STATE
-# projects/agilicus-dev/locations/global/keyRings/sops/cryptoKeys/sops-key  ENCRYPT_DECRYPT          1           ENABLED
+# projects/MYPROJECT/locations/global/keyRings/sops/cryptoKeys/sops-key  ENCRYPT_DECRYPT          1           ENABLED
 
-sops --encrypt --gcp-kms projects/agilicus-dev/locations/global/keyRings/sops/cryptoKeys/sops-key secrets.yaml > secrets.enc.yaml
+sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/cryptoKeys/sops-key secrets.yaml > secrets.enc.yaml
 ```
