@@ -7,12 +7,14 @@ It assumes that there exists a single `secrets.enc.yaml` file, and in it there i
 1-deep YAML representation of `SECRET: VALUE`.
 
 Assume you had a _raw_ secrets as secrets.yaml:
+
 ```
 CAT: ferocious
 DOG: tame
 ```
 
 You would then encrypt it something like:
+
 ```
 sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/cryptoKeys/sops-key secrets.yaml > secrets.enc.yaml
 ```
