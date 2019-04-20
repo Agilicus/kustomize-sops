@@ -45,6 +45,8 @@ metadata:
 type: Opaque
 ```
 
+More information is in the [blog](https://www.agilicus.com/safely-secure-secrets-a-sops-plugin-for-kustomize/) post.
+
 ### Install Pre-requisites
 
 ```
