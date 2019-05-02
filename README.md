@@ -57,8 +57,8 @@ go get -u go.mozilla.org/sops/cmd/sops
 ### Build & Install plugin
 
 ```
-mkdir -p ~/.config/kustomize/plugins/kvSources
-go build -buildmode plugin -o ~/.config/kustomize/plugins/kvSources/kustomize-sops.so kustomize-sops.go
+mkdir -p ~/.config/kustomize/plugin/kvSources
+go build -buildmode plugin -o ~/.config/kustomize/plugin/kvSources/kustomize-sops.so kustomize-sops.go
 ```
 
 ### Test/Run
