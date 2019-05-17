@@ -25,7 +25,7 @@ func (p plugin) Get(root string, args []string) (map[string]string, error) {
 	}
 	err = yaml.Unmarshal([]byte(v), &secret)
 	if err != nil {
-		log.Fatalf("error: cannot unmarcsall secrets.enc.yaml as yaml in %s :: %v", root, err)
+		log.Fatalf("error: cannot unmarshal secrets.enc.yaml as yaml in %s :: %v", root, err)
 	}
 
 	r := make(map[string]string)
