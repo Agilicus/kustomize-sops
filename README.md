@@ -49,22 +49,19 @@ More information is in the [blog](https://www.agilicus.com/safely-secure-secrets
 
 ### Install Pre-requisites
 
-```
-go get -u github.com/kubernetes-sigs/kustomize
-go get -u go.mozilla.org/sops/cmd/sops
-```
-
 ### Build & Install plugin
 
 ```
-mkdir -p ~/.config/kustomize/plugin/kvSources
-go build -buildmode plugin -o ~/.config/kustomize/plugin/kvSources/kustomize-sops.so kustomize-sops.go
+mkdir -p ~/.config/kustomize/plugins/kvSources
+go build -buildmode plugin -o ~/.config/kustomize/plugins/kvSources/kustomize-sops.so kustomize-sops.go
+git clone git@github.com:kubernetes-sigs/kustomize.git
+(cd kustomize; go build)
 ```
 
 ### Test/Run
 
 ```
-kustomize --enable_alpha_goplugins_accept_panic_risk build .
+./kustomize/kustomize --enable_alpha_goplugins_accept_panic_risk build .
 ```
 
 ### Setup encrypted secrets
@@ -79,3 +76,9 @@ gcloud kms keys list --location global --keyring sops
 
 sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/cryptoKeys/sops-key secrets.yaml > secrets.enc.yaml
 ```
+
+### Notes
+
+A breaking change in kustomize in v2.0.3 means some rework and refactoring is needed here.
+Thus the specific forcing of version 2.0.2 above.
+
