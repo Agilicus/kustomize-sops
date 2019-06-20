@@ -22,26 +22,27 @@ sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/crypt
 You would use a `kustomization.yaml` file as:
 
 ```
-secretGenerator:
-- name: mysecrets
-  kvSources:
-  - name: kustomize-sops
-    pluginType: go
-    args:
-    - CAT
-    - DOG
+---
+apiVersion: kustomize-sops/v1
+kind: SopsSecret
+name: my-secret
+namespace: bar
+metadata:
+  name: not-used
+keys:
+  - CAT
 ```
 
-And then running `kustomize --enable_alpha_goplugins_accept_panic_risk build .` would yield:
+And then running `kustomize build --enable_alpha_plugins .` would yield:
 
 ```
 apiVersion: v1
 data:
   CAT: ZmVyb2Npb3Vz
-  DOG: dGFtZQ==
 kind: Secret
 metadata:
-  name: mysecrets-4g7fk45c8c
+  name: my-secret-hkbkhc8h2b
+  namespace: bar
 type: Opaque
 ```
 
@@ -52,16 +53,20 @@ More information is in the [blog](https://www.agilicus.com/safely-secure-secrets
 ### Build & Install plugin
 
 ```
-mkdir -p ~/.config/kustomize/plugins/kvSources
-go build -buildmode plugin -o ~/.config/kustomize/plugins/kvSources/kustomize-sops.so kustomize-sops.go
-git clone git@github.com:kubernetes-sigs/kustomize.git
-(cd kustomize; go build)
+
+mkdir -p sigs.k8s.io
+git clone git@github.com:kubernetes-sigs/kustomize.git sigs.k8s.io/kustomize
+(cd sigs.k8s.io/kustomize; git checkout af67c893d87c)
+go install sigs.k8s.io/kustomize/cmd/kustomize
+
+mkdir -p ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret
+go build -buildmode plugin -o ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so SopsSecret.go
 ```
 
 ### Test/Run
 
 ```
-./kustomize/kustomize --enable_alpha_goplugins_accept_panic_risk build .
+kustomize build --enable_alpha_plugins .
 ```
 
 ### Setup encrypted secrets
@@ -79,6 +84,5 @@ sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/crypt
 
 ### Notes
 
-A breaking change in kustomize in v2.0.3 means some rework and refactoring is needed here.
-Thus the specific forcing of version 2.0.2 above.
-
+The interface in `kustomize` for plugins is extremely brittle. They effectively
+don't work unless compiled at the same time as kustomize.
