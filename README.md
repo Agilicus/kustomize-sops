@@ -27,6 +27,7 @@ apiVersion: kustomize-sops/v1
 kind: SopsSecret
 name: my-secret
 namespace: bar
+source: secrets.enc.yaml
 metadata:
   name: not-used
 keys:

@@ -18,6 +18,7 @@ type plugin struct {
 	ldr       ifc.Loader
 	Name      string `json:"name,omitempty" yaml:"name,omitempty"`
 	Namespace string `json:"namespace,omitempty" yaml:"namespace,omitempty"`
+	Source    string `json:"source,omitempty" yaml:"source,omitempty"`
 	// List of keys to use in database lookups
 	Keys []string `json:"keys,omitempty" yaml:"keys,omitempty"`
 }
@@ -39,8 +40,12 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 	args.Name = p.Name
 	args.Namespace = p.Namespace
 
+	if len(p.Source) == 0 {
+		p.Source = "secrets.enc.yaml"
+	}
+
 	secret := make(map[string]string)
-	secret_file := filepath.Join(p.ldr.Root(), "secrets.enc.yaml")
+	secret_file := filepath.Join(p.ldr.Root(), p.Source)
 
 	v, err := decrypt.File(secret_file, "yaml")
 	if err != nil {
