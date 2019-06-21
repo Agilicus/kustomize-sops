@@ -53,15 +53,18 @@ More information is in the [blog](https://www.agilicus.com/safely-secure-secrets
 
 ### Build & Install plugin
 
-```
+This is a bit complex since Go plugins are *unbelievably* brittle, all packages in both sides must be identical.
+Effectively they must be built in the same tree at the same time.
 
+```
 mkdir -p sigs.k8s.io
 git clone git@github.com:kubernetes-sigs/kustomize.git sigs.k8s.io/kustomize
 (cd sigs.k8s.io/kustomize; git checkout af67c893d87c)
-go install sigs.k8s.io/kustomize/cmd/kustomize
+(cd sigs.k8s.io/kustomize; go build  -o ~/bin/kustomize cmd/kustomize/main.go) 
 
 mkdir -p ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret
-go build -buildmode plugin -o ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so SopsSecret.go
+cp SopsSecret.go sigs.k8s.io/kustomize/plugin
+(cd sigs.k8s.io/kustomize; go build -buildmode plugin -o ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so plugin/SopsSecret.go)
 ```
 
 ### Test/Run

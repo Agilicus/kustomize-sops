@@ -39,6 +39,8 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 	args := types.SecretArgs{}
 	args.Name = p.Name
 	args.Namespace = p.Namespace
+	args.GeneratorArgs.Behavior = "merge"
+	log.Printf("args: %+v\n", args)
 
 	if len(p.Source) == 0 {
 		p.Source = "secrets.enc.yaml"
@@ -65,5 +67,12 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 		}
 	}
 
+	//	opts := types.GeneratorOptions{}
+	//	opts.Behavior{Behavior: types.GenerationBehavior.BehaviorMerge}
+	log.Printf("BEFORE")
+	//log.Printf("IDS: %v", opts)
+
+	resm, err := p.rf.FromSecretArgs(p.ldr, nil, args)
+	log.Printf("HERE %v", resm)
 	return p.rf.FromSecretArgs(p.ldr, nil, args)
 }
