@@ -56,15 +56,18 @@ More information is in the [blog](https://www.agilicus.com/safely-secure-secrets
 This is a bit complex since Go plugins are *unbelievably* brittle, all packages in both sides must be identical.
 Effectively they must be built in the same tree at the same time.
 
+You can run `make`, or, paste below.
+
 ```
+export GO111MODULE=on
 mkdir -p sigs.k8s.io
 git clone git@github.com:kubernetes-sigs/kustomize.git sigs.k8s.io/kustomize
-(cd sigs.k8s.io/kustomize; git checkout af67c893d87c)
-(cd sigs.k8s.io/kustomize; go build  -o ~/bin/kustomize cmd/kustomize/main.go) 
+#(cd sigs.k8s.io/kustomize; git checkout af67c893d87c)
 
 mkdir -p ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret
-cp SopsSecret.go sigs.k8s.io/kustomize/plugin
+ln -s $PWD/SopsSecret.go $PWD/sigs.k8s.io/kustomize/plugin/
 (cd sigs.k8s.io/kustomize; go build -buildmode plugin -o ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so plugin/SopsSecret.go)
+(cd sigs.k8s.io/kustomize; go build  -o ~/bin/kustomize cmd/kustomize/main.go) 
 ```
 
 ### Test/Run

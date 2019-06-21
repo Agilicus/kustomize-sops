@@ -14,8 +14,10 @@ import (
 )
 
 type plugin struct {
-	rf        *resmap.Factory
-	ldr       ifc.Loader
+	ldr ifc.Loader
+	rf  *resmap.Factory
+	types.GeneratorOptions
+	types.SecretArgs
 	Name      string `json:"name,omitempty" yaml:"name,omitempty"`
 	Namespace string `json:"namespace,omitempty" yaml:"namespace,omitempty"`
 	Source    string `json:"source,omitempty" yaml:"source,omitempty"`
@@ -29,6 +31,8 @@ var KustomizePlugin plugin
 
 func (p *plugin) Config(
 	ldr ifc.Loader, rf *resmap.Factory, c []byte) error {
+	p.SecretArgs = types.SecretArgs{}
+	p.GeneratorOptions = types.GeneratorOptions{}
 	p.rf = rf
 	p.ldr = ldr
 	return yaml.Unmarshal(c, p)
@@ -39,8 +43,9 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 	args := types.SecretArgs{}
 	args.Name = p.Name
 	args.Namespace = p.Namespace
-	args.GeneratorArgs.Behavior = "merge"
+	//	args.GeneratorArgs.Behavior = "merge"
 	log.Printf("args: %+v\n", args)
+	log.Printf("\np: %+v\n", p)
 
 	if len(p.Source) == 0 {
 		p.Source = "secrets.enc.yaml"
@@ -72,7 +77,8 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 	log.Printf("BEFORE")
 	//log.Printf("IDS: %v", opts)
 
+	log.Printf("\n\nargs: %+v\n", args)
 	resm, err := p.rf.FromSecretArgs(p.ldr, nil, args)
-	log.Printf("HERE %v", resm)
-	return p.rf.FromSecretArgs(p.ldr, nil, args)
+	log.Printf("\nresm: %+v", resm)
+	return p.rf.FromSecretArgs(p.ldr, &p.GeneratorOptions, args)
 }
