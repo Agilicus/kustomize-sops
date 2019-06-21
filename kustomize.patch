@@ -1,0 +1,16 @@
+diff --git a/pkg/target/kusttarget.go b/pkg/target/kusttarget.go
+index a26fdce6..4bbbfe35 100644
+--- a/sigs.k8s.io/kustomize/pkg/target/kusttarget.go
++++ b/sigs.k8s.io/kustomize/pkg/target/kusttarget.go
+@@ -278,7 +278,10 @@ func (kt *KustTarget) runGenerators(
+ 		}
+ 		err = ra.AppendAll(resMap)
+ 		if err != nil {
+-			return errors.Wrapf(err, "merging from generator %v", g)
++			err1 := ra.AbsorbAll(resMap)
++			if err1 != nil {
++				return errors.Wrapf(err, "merging from generator %v", g)
++			}
+ 		}
+ 	}
+ 	return nil

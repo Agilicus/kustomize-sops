@@ -93,3 +93,5 @@ sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/crypt
 
 The interface in `kustomize` for plugins is extremely brittle. They effectively
 don't work unless compiled at the same time as kustomize.
+
+The patch... see https://github.com/kubernetes-sigs/kustomize/pull/1075#issuecomment-504551553

@@ -8,8 +8,8 @@
             "name": "Launch",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
-            "program": "${fileDirname}",
+            "mode": "exec",
+            "program": "/home/don/bin/kustomize",
             "env": {},
             "args": ["build", "--enable_alpha_plugins", "/home/don/src-ag/tooling/deploy/overlays/gke-prod-yul/user-portal"]
         }
