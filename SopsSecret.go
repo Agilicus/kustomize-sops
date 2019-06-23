@@ -42,6 +42,7 @@ func (p *plugin) Config(
 func (p *plugin) Generate() (resmap.ResMap, error) {
 	args := types.SecretArgs{}
 	args.Name = p.Name
+	args.Type = p.Type
 	args.Namespace = p.Namespace
 	args.GeneratorArgs.Behavior = "merge"
 
