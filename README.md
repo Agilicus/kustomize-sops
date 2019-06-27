@@ -34,6 +34,8 @@ keys:
   - CAT
 ```
 
+If keys is empty (e.g. `keys: []`), then all keys are imported.
+
 And then running `kustomize build --enable_alpha_plugins .` would yield:
 
 ```
@@ -46,6 +48,10 @@ metadata:
   namespace: bar
 type: Opaque
 ```
+
+You may wish to try:
+`type: kubernetes.io/dockerconfigjson` if using a docker config.
+
 
 More information is in the [blog](https://www.agilicus.com/safely-secure-secrets-a-sops-plugin-for-kustomize/) post.
 

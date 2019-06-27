@@ -62,6 +62,12 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 		log.Fatalf("error: cannot unmarshal %s as yaml :: %v", secret_file, err)
 	}
 
+	if len(p.Keys) == 0 {
+		for k := range secret {
+			p.Keys = append(p.Keys, k)
+		}
+	}
+
 	for _, k := range p.Keys {
 		v, ok := secret[k]
 		if ok {
