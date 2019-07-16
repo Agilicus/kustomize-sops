@@ -8,6 +8,7 @@ sigs.k8s.io/kustomize/go.mod:
 	mkdir -p ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret
 	ln -s $$PWD/SopsSecret.go $$PWD/sigs.k8s.io/kustomize/plugin/
 	patch -p1 < kustomize.patch
+	patch -p1 < kustomize-enable.patch
 
 ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so: ~/bin/kustomize SopsSecret.go
 	(cd sigs.k8s.io/kustomize; go build -buildmode plugin -o ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so plugin/SopsSecret.go)

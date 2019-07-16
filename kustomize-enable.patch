@@ -1,0 +1,11 @@
+diff --git a/pkg/plugins/config.go b/pkg/plugins/config.go
+index 80d82ecc..2f88637d 100644
+--- a/sigs.k8s.io/kustomize/pkg/plugins/config.go
++++ b/sigs.k8s.io/kustomize/pkg/plugins/config.go
+@@ -49,5 +49,5 @@ func NotEnabledErr(name string) error {
+ func AddFlagEnablePlugins(set *pflag.FlagSet, v *bool) {
+ 	set.BoolVar(
+ 		v, flagEnablePluginsName,
+-		false, flagEnablePluginsHelp)
++		true, flagEnablePluginsHelp)
+ }
