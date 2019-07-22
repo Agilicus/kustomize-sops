@@ -3,7 +3,7 @@ all: ~/bin/kustomize ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/Sop
 sigs.k8s.io/kustomize/go.mod:
 	export GO111MODULE=on
 	mkdir -p sigs.k8s.io
-	git clone git@github.com:kubernetes-sigs/kustomize.git sigs.k8s.io/kustomize
+	git clone https://github.com/kubernetes-sigs/kustomize.git sigs.k8s.io/kustomize
 #	(cd sigs.k8s.io/kustomize; git checkout 6922dbbc706e1787d8d7f2a57e4eb594ea6863fa)
 	mkdir -p ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret
 	ln -s $$PWD/SopsSecret.go $$PWD/sigs.k8s.io/kustomize/plugin/
