@@ -14,10 +14,11 @@ import (
 )
 
 type plugin struct {
-	ldr ifc.Loader
-	rf  *resmap.Factory
-	types.GeneratorOptions
+	ldr                    ifc.Loader
+	rf                     *resmap.Factory
+	types.GeneratorOptions `json:"generatorOptions,omitempty" yaml:"generatorOptions,omitempty"`
 	types.SecretArgs
+
 	Name      string `json:"name,omitempty" yaml:"name,omitempty"`
 	Namespace string `json:"namespace,omitempty" yaml:"namespace,omitempty"`
 	Source    string `json:"source,omitempty" yaml:"source,omitempty"`
