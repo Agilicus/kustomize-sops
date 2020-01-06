@@ -14,3 +14,13 @@ index a26fdce6..4bbbfe35 100644
  		}
  	}
  	return nil
+diff --git a/go.mod b/go.mod
+index c1944f22..5aa12b64 100644
+--- a/sigs.k8s.io/kustomize/go.mod
++++ b/sigs.k8s.io/kustomize/go.mod
+@@ -29,4 +29,5 @@ require (
+ 	k8s.io/klog v0.3.3 // indirect
+ 	k8s.io/kube-openapi v0.0.0-20190603182131-db7b694dc208
+ 	sigs.k8s.io/yaml v1.1.0
++        go.mozilla.org/sops 3.4.0
+ )
