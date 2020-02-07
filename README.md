@@ -62,19 +62,24 @@ More information is in the [blog](https://www.agilicus.com/safely-secure-secrets
 This is a bit complex since Go plugins are *unbelievably* brittle, all packages in both sides must be identical.
 Effectively they must be built in the same tree at the same time.
 
-You can run `make`, or, paste below.
+To build, run `make`. Note: the result is both `kustomize` and the plugin, you must use the `kustomize`
+that this builds.
 
+It will output two files:
 ```
-export GO111MODULE=on
-mkdir -p sigs.k8s.io
-git clone git@github.com:kubernetes-sigs/kustomize.git sigs.k8s.io/kustomize
-#(cd sigs.k8s.io/kustomize; git checkout af67c893d87c)
+~/bin/kustomize
+~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so
+```
 
-mkdir -p ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret
-ln -s $PWD/SopsSecret.go $PWD/sigs.k8s.io/kustomize/plugin/
-(cd sigs.k8s.io/kustomize; go build -buildmode plugin -o ~/.config/kustomize/plugin/kustomize-sops/v1/sopssecret/SopsSecret.so plugin/SopsSecret.go)
-(cd sigs.k8s.io/kustomize; go build  -o ~/bin/kustomize cmd/kustomize/main.go) 
+If you have ~/bin on your path, it should work from here.
+
+I have build this with 
 ```
+$ go version
+go version go1.13.7 linux/amd64
+```
+
+I am not sure how sensitive it is to changes.
 
 ### Test/Run
 
@@ -99,5 +104,8 @@ sops --encrypt --gcp-kms projects/MYPROJECT/locations/global/keyRings/sops/crypt
 
 The interface in `kustomize` for plugins is extremely brittle. They effectively
 don't work unless compiled at the same time as kustomize.
+
+See [kustomize-plugins](https://github.com/Agilicus/kustomize-plugins/) for exec-based
+plugins that achieve the same purpose as above, but are not as brittle.
 
 The patch... see https://github.com/kubernetes-sigs/kustomize/pull/1075#issuecomment-504551553
